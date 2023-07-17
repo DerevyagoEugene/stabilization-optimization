@@ -18,8 +18,9 @@ public class VariantTwo extends BaseTest {
         super(remoteWebDriver);
     }
 
-    @Test
-    public void AlphabeticalProjectName() throws ParseException, IOException {
+    @ParameterizedTest
+    @MethodSource("provideProjectNames")
+    public void AddProjectTest(String nameOfProject) throws ParseException, IOException {
         browser.maximize();
         browser.goTo((configDataApiDTO.baseUri + configDataUiDTO.webAppPath));
         browser.waitForPageToLoad();
@@ -36,7 +37,6 @@ public class VariantTwo extends BaseTest {
         steps.goToNexageProject();
         steps.assertThatTestsOrderedByDescendingAndSameWithApiTests(idOfNexageProject);
 
-        String nameOfProject = steps.generateAlphabeticalNameOfProject();
         steps.createNewProject(nameOfProject);
         steps.assertThatSuccessAlertDisplayed();
 
@@ -49,96 +49,10 @@ public class VariantTwo extends BaseTest {
         AqualityServices.getBrowser().quit();
     }
 
-    @Test
-    public void NumericalProjectName() throws ParseException, IOException {
-        browser.maximize();
-        browser.goTo((configDataApiDTO.baseUri + configDataUiDTO.webAppPath));
-        browser.waitForPageToLoad();
-
-        final StepsOfVariant2 steps = new StepsOfVariant2();
-
-        String token = steps.getTokenByVariant(testDataApiDTO.variantToTakeToken);
-        steps.assertTokenIsGenerated(token);
-
-        String variant = steps.passAuthSetTokenToCookieAndReturnTheVariant(token);
-        steps.assertThatVariantIsCorrectAndProjectPageDisplayed(variant);
-
-        String idOfNexageProject = steps.getNexageProjectId();
-        steps.goToNexageProject();
-        steps.assertThatTestsOrderedByDescendingAndSameWithApiTests(idOfNexageProject);
-
-        String nameOfProject = steps.generateNumericalNameOfProject();
-        steps.createNewProject(nameOfProject);
-        steps.assertThatSuccessAlertDisplayed();
-
-        steps.closeWindow();
-        steps.assertThatFormIsClosedAndProjectAdded(nameOfProject);
-
-        String nameOfMethod = steps.addProjectWithLogsAndScreenshot(nameOfProject);
-        steps.assertThatTestIsAdded(nameOfMethod);
-
-        AqualityServices.getBrowser().quit();
-    }
-
-    @Test
-    public void AlphaNumericalProjectName() throws ParseException, IOException {
-        browser.maximize();
-        browser.goTo((configDataApiDTO.baseUri + configDataUiDTO.webAppPath));
-        browser.waitForPageToLoad();
-
-        final StepsOfVariant2 steps = new StepsOfVariant2();
-
-        String token = steps.getTokenByVariant(testDataApiDTO.variantToTakeToken);
-        steps.assertTokenIsGenerated(token);
-
-        String variant = steps.passAuthSetTokenToCookieAndReturnTheVariant(token);
-        steps.assertThatVariantIsCorrectAndProjectPageDisplayed(variant);
-
-        String idOfNexageProject = steps.getNexageProjectId();
-        steps.goToNexageProject();
-        steps.assertThatTestsOrderedByDescendingAndSameWithApiTests(idOfNexageProject);
-
-        String nameOfProject = steps.generateAlphaNumericalNameOfProject();
-        steps.createNewProject(nameOfProject);
-        steps.assertThatSuccessAlertDisplayed();
-
-        steps.closeWindow();
-        steps.assertThatFormIsClosedAndProjectAdded(nameOfProject);
-
-        String nameOfMethod = steps.addProjectWithLogsAndScreenshot(nameOfProject);
-        steps.assertThatTestIsAdded(nameOfMethod);
-
-        AqualityServices.getBrowser().quit();
-    }
-
-    @Test
-    public void AlphaNumericalProjectNameSpecialSymbols() throws ParseException, IOException {
-        browser.maximize();
-        browser.goTo((configDataApiDTO.baseUri + configDataUiDTO.webAppPath));
-        browser.waitForPageToLoad();
-
-        final StepsOfVariant2 steps = new StepsOfVariant2();
-
-        String token = steps.getTokenByVariant(testDataApiDTO.variantToTakeToken);
-        steps.assertTokenIsGenerated(token);
-
-        String variant = steps.passAuthSetTokenToCookieAndReturnTheVariant(token);
-        steps.assertThatVariantIsCorrectAndProjectPageDisplayed(variant);
-
-        String idOfNexageProject = steps.getNexageProjectId();
-        steps.goToNexageProject();
-        steps.assertThatTestsOrderedByDescendingAndSameWithApiTests(idOfNexageProject);
-
-        String nameOfProject = steps.generateAlphaNumericalWithSpecialSymbolsNameOfProject();
-        steps.createNewProject(nameOfProject);
-        steps.assertThatSuccessAlertDisplayed();
-
-        steps.closeWindow();
-        steps.assertThatFormIsClosedAndProjectAdded(nameOfProject);
-
-        String nameOfMethod = steps.addProjectWithLogsAndScreenshot(nameOfProject);
-        steps.assertThatTestIsAdded(nameOfMethod);
-
-        AqualityServices.getBrowser().quit();
+    private static List<String> provideProjectNames() {
+        return Arrays.asList(StepsOfVariant2.generateAlphabeticalNameOfProject(),  
+                            StepsOfVariant2.generateNumericalNameOfProject(),
+                            StepsOfVariant2.generateAlphaNumericalNameOfProject(),
+                            StepsOfVariant2.generateAlphaNumericalWithSpecialSymbolsNameOfProject())
     }
 }

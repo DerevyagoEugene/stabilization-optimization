@@ -54,19 +54,19 @@ public class StepsOfVariant2 {
         return StringUtility.getStartedDates(listOfTestsFromAPI);
     }
 
-    public String generateAlphabeticalNameOfProject() {
+    public static String generateAlphabeticalNameOfProject() {
         return RandomStringUtils.randomAlphabetic(RandomUtility.randomIntegerFrom5To15());
     }
 
-    public String generateAlphaNumericalNameOfProject(){
+    public static String generateAlphaNumericalNameOfProject(){
         return RandomStringUtils.randomAlphanumeric(RandomUtility.randomIntegerFrom5To15());
     }
 
-    public String generateNumericalNameOfProject(){
+    public static String generateNumericalNameOfProject(){
         return RandomStringUtils.randomNumeric(RandomUtility.randomIntegerFrom5To15());
     }
 
-    public String generateAlphaNumericalWithSpecialSymbolsNameOfProject(){
+    public static String generateAlphaNumericalWithSpecialSymbolsNameOfProject(){
         return RandomStringUtils.randomAscii(RandomUtility.randomIntegerFrom5To15());
     }
 
